@@ -13,12 +13,16 @@ import { UserFormComponent } from '../user-form/user-form.component';
 export class UserDashboardComponent implements AfterViewInit {
   users: User[] = [];
   chart: any;
+  filterdata: any;
+  searchTerm: any;
 
   constructor(private userService: UserService, private dialog: MatDialog) {}
 
   ngAfterViewInit(): void {
     this.userService.users$.subscribe((users) => {
       this.users = users;
+      this.filterdata=users;
+      this.applyFilter()
       Chart.register(
         ArcElement,    
         Tooltip,       
@@ -99,5 +103,14 @@ export class UserDashboardComponent implements AfterViewInit {
         this.userService.addUser(result); // Add user to the list after closing the modal
       }
     });
+  }
+
+  applyFilter() {
+    if(this.searchTerm){
+      const filterValue = this.searchTerm.toLowerCase();
+      this.filterdata = this.users.filter((item: any) =>
+        item.name.toLowerCase().includes(filterValue) || item.email.toLowerCase().includes(filterValue)
+      );
+    }
   }
 }
