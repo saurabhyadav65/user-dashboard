@@ -1,0 +1,35 @@
+<div class="form-container">
+    <h2>Add User</h2>
+  
+    <form #userForm="ngForm" (ngSubmit)="submitForm()">
+      <div class="userDiv">
+        <label for="name">Name:</label>
+        <input id="name" name="name" [(ngModel)]="user.name" required />
+      </div>
+  
+      <div class="userDiv">
+        <label for="email">Email:</label>
+        <input
+          id="email"
+          type="email"
+          name="email"
+          [(ngModel)]="user.email"
+          required
+        />
+      </div>
+  
+      <div class="userDiv">
+        <label for="role">Role:</label>
+        <select name="role" [(ngModel)]="user.role" required>
+          <option value="">Select role</option>
+          <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+        </select>
+      </div>
+  
+      <button type="submit" [disabled]="!userForm.form.valid">
+        Submit
+      </button>
+    </form>
+  
+  </div>
+  
